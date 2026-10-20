@@ -1,0 +1,2498 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Generator script for HAI DANG MOBILE - Corporate Enterprise Light Edition.
+Creates a professional, clean, white/light-themed mobile phone retail web application.
+"""
+
+import json
+
+HTML_CONTENT = r'''<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAI DANG MOBILE – Hệ Thống Bán Lẻ Điện Thoại Chính Hãng & Thu Cũ Đổi Mới</title>
+  <meta name="description" content="Hệ thống bán lẻ điện thoại di động chính hãng Apple, Samsung, Xiaomi, OPPO. Trả góp 0%, Thu cũ đổi mới trợ giá cao, giao hỏa tốc 1 giờ.">
+  <meta property="og:title" content="HAI DANG MOBILE – Điện Thoại Chính Hãng Giá Tốt Nhất">
+  <meta property="og:description" content="Mua iPhone 16 Series, Galaxy S24 Ultra, Xiaomi 14 trả góp 0%, thu cũ trợ giá 2.500.000₫, giao hàng 1 giờ.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1200&q=80">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Corporate Enterprise Light Theme Tokens */
+      --bg-dark: #f8fafc; /* Slate 50 clean background */
+      --bg-card: #ffffff; /* Crisp Pure White */
+      --bg-card-hover: #ffffff;
+      --bg-surface: #ffffff;
+      --bg-elevated: #f1f5f9; /* Slate 100 */
+      --border: #e2e8f0; /* Slate 200 clean delicate border */
+      --border-focus: #2563eb;
+      --border-subtle: rgba(0, 0, 0, 0.06);
+
+      --text: #0f172a; /* Slate 900 - High contrast charcoal */
+      --text-muted: #475569; /* Slate 600 */
+      --text-dim: #94a3b8; /* Slate 400 */
+
+      --primary: #d32f2f; /* Corporate Tech Red */
+      --primary-hover: #b71c1c;
+      --primary-light: rgba(211, 47, 47, 0.08);
+
+      --blue: #1d4ed8;
+      --blue-light: rgba(29, 78, 216, 0.08);
+
+      --emerald: #059669;
+      --emerald-light: rgba(5, 150, 105, 0.08);
+
+      --amber: #d97706;
+      --amber-light: rgba(217, 119, 6, 0.08);
+
+      --cyan: #0891b2;
+      --purple: #7c3aed;
+
+      --radius-sm: 6px;
+      --radius: 10px;
+      --radius-lg: 16px;
+      --font-mono: 'JetBrains Mono', monospace;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 24px -4px rgba(15, 23, 42, 0.06);
+      --shadow-hover: 0 12px 30px -4px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text);
+      line-height: 1.5;
+      font-size: 14px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    .mono { font-family: var(--font-mono); }
+    .text-primary { color: var(--primary); }
+    .text-emerald { color: var(--emerald); }
+    .text-blue { color: var(--blue); }
+    .text-amber { color: var(--amber); }
+
+    /* Button System */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+      user-select: none;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(211, 47, 47, 0.25);
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 12px rgba(211, 47, 47, 0.35);
+    }
+    .btn-secondary {
+      background: #f1f5f9;
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+    }
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-outline:hover {
+      border-color: #94a3b8;
+      background: #f8fafc;
+    }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 5px;
+    }
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .badge-primary { background: var(--primary-light); color: var(--primary); border: 1px solid rgba(211, 47, 47, 0.2); }
+    .badge-emerald { background: var(--emerald-light); color: var(--emerald); border: 1px solid rgba(5, 150, 105, 0.2); }
+    .badge-blue { background: var(--blue-light); color: var(--blue); border: 1px solid rgba(29, 78, 216, 0.2); }
+    .badge-amber { background: var(--amber-light); color: var(--amber); border: 1px solid rgba(217, 119, 6, 0.2); }
+
+    /* Top Trust Bar */
+    .top-trust-bar {
+      background: #0f172a;
+      color: #cbd5e1;
+      font-size: 11px;
+      padding: 6px 0;
+      border-bottom: 1px solid #1e293b;
+    }
+    .trust-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .trust-links {
+      display: flex;
+      gap: 20px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+    .topbar {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #d32f2f, #b71c1c);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #ffffff;
+      box-shadow: 0 3px 8px rgba(211, 47, 47, 0.25);
+    }
+    .brand-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    /* Search bar */
+    .search-container {
+      flex: 1;
+      max-width: 460px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      background: #f1f5f9;
+      border: 1px solid transparent;
+      border-radius: 30px;
+      padding: 10px 18px 10px 42px;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-input:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+    }
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    /* Top actions */
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Sub-nav quick links */
+    .subnav {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .subnav::-webkit-scrollbar { display: none; }
+    .subnav-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 4px;
+    }
+    .subnav-link {
+      padding: 11px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .subnav-link:hover {
+      color: var(--primary);
+      background: rgba(211, 47, 47, 0.03);
+    }
+    .subnav-link.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: rgba(211, 47, 47, 0.05);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1360px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
+      flex: 1;
+    }
+
+    /* Corporate Value Proposition Block (4 Cam Kết Vàng) */
+    .commitments-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .commitment-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow);
+    }
+    .commitment-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .commitment-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .commitment-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Hero & Flash Sale Banner (Clean Light Styling) */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .hero-banner {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+      box-shadow: var(--shadow);
+    }
+    .hero-flash-sale {
+      background: #ffffff;
+      border: 1px solid rgba(211, 47, 47, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+    .timer-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 12px 0;
+    }
+    .timer-box {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    /* Brand Filters */
+    .brand-bar {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+    .brand-bar::-webkit-scrollbar { display: none; }
+    .brand-pill {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .brand-pill:hover {
+      border-color: #94a3b8;
+      color: var(--text);
+    }
+    .brand-pill.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+    }
+
+    /* Product Cards Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+    .product-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .product-card:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    .product-badge-wrap {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .product-thumb-wrap {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .product-thumb {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      transition: transform 0.3s;
+    }
+    .product-card:hover .product-thumb {
+      transform: scale(1.05);
+    }
+    .product-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 40px;
+    }
+    .product-specs-chip {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .spec-tag {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .product-price-row {
+      margin-bottom: 12px;
+    }
+    .product-price {
+      font-size: 18px;
+      font-weight: 800;
+      color: #d32f2f;
+      letter-spacing: -0.3px;
+    }
+    .product-old-price {
+      font-size: 12px;
+      color: var(--text-dim);
+      text-decoration: line-through;
+      margin-left: 6px;
+    }
+    .product-discount-tag {
+      background: rgba(211, 47, 47, 0.08);
+      color: #d32f2f;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-left: 4px;
+    }
+
+    /* Modal Architecture */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+      animation: fadeIn 0.15s ease-out;
+    }
+    .modal-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 840px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+    }
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: #f8fafc;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* PDP Grid in Modal */
+    .pdp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .pdp-image-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+    .pdp-main-img {
+      max-width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+    }
+    .variant-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0 14px;
+    }
+    .variant-btn {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .variant-btn:hover { border-color: #94a3b8; }
+    .variant-btn.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* Comparison Bar Floating */
+    .compare-bar {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 10px 24px;
+      display: none;
+      align-items: center;
+      gap: 16px;
+      z-index: 500;
+      box-shadow: 0 12px 35px rgba(15, 23, 42, 0.15);
+    }
+    .compare-bar.active { display: flex; animation: slideUp 0.2s ease-out; }
+
+    /* Form Controls */
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 13px;
+      padding: 9px 12px;
+      font-family: inherit;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Toast Notification */
+    #toastContainer {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      pointer-events: auto;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.25s ease-out;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translate(-50%, 40px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+    .toast-success { border-left: 4px solid var(--emerald); }
+    .toast-error { border-left: 4px solid var(--primary); }
+    .toast-info { border-left: 4px solid var(--blue); }
+
+    /* Corporate Footer */
+    footer {
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      padding: 40px 20px 20px;
+      color: #475569;
+      font-size: 12px;
+    }
+    .footer-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1.2fr 1.2fr 1.5fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    .footer-col-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .footer-links a {
+      color: #64748b;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--primary); }
+    .footer-bottom {
+      max-width: 1360px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #94a3b8;
+      font-size: 11px;
+    }
+
+    @media (max-width: 960px) {
+      .commitments-row { grid-template-columns: repeat(2, 1fr); }
+      .hero-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .pdp-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .topbar { flex-wrap: wrap; }
+      .search-container { order: 3; max-width: 100%; width: 100%; margin-top: 8px; }
+      .trust-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP TRUST BAR -->
+  <div class="top-trust-bar">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <span>🏢 Hệ thống 120 Showroom toàn quốc</span>
+        <span style="margin: 0 8px;">•</span>
+        <span>📞 Hotline miễn cước: <strong>1800.6868</strong> (8h00 - 21h30)</span>
+      </div>
+      <div class="trust-links">
+        <span class="trust-item">🛡️ Cam kết 100% Chính Hãng VN/A</span>
+        <span class="trust-item">⚡ Giao hàng hỏa tốc 1 giờ</span>
+        <span class="trust-item">💼 Bán hàng Doanh nghiệp (B2B)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN HEADER -->
+  <header>
+    <div class="topbar">
+      <a href="#" class="brand-wrap" onclick="resetFilter(); return false;">
+        <div class="brand-logo-icon">📱</div>
+        <div>
+          <div class="brand-title">
+            HAI DANG MOBILE
+            <span class="badge badge-primary" style="font-size: 9px;">AUTHORIZED</span>
+          </div>
+          <div class="brand-sub">HỆ THỐNG BÁN LẺ THIẾT BỊ DI ĐỘNG CHÍNH HÃNG</div>
+        </div>
+      </a>
+
+      <!-- Smart Search Bar -->
+      <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm iPhone 16 Pro, Galaxy S24 Ultra, Xiaomi 14T..." oninput="handleSearch()">
+      </div>
+
+      <!-- Action buttons -->
+      <div class="top-actions">
+        <button class="btn btn-outline btn-sm" onclick="openTradeInModal()">
+          🔄 Thu Cũ Đổi Mới
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="openInstallmentModal()">
+          💳 Trả Góp 0%
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="openCartModal()">
+          🛒 Giỏ Hàng (<span id="cartCountBadge" class="mono text-primary">0</span>)
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="openOrdersModal()">
+          📦 Tra Cứu Đơn
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SUB NAVIGATION -->
+  <div class="subnav">
+    <div class="subnav-inner">
+      <div class="subnav-link active" onclick="filterByBrand('all', this)">⚡ Tất Cả Sản Phẩm</div>
+      <div class="subnav-link" onclick="filterByBrand('Apple', this)">🍏 iPhone (Apple)</div>
+      <div class="subnav-link" onclick="filterByBrand('Samsung', this)">🪐 Samsung Galaxy</div>
+      <div class="subnav-link" onclick="filterByBrand('Xiaomi', this)">⚡ Xiaomi & Redmi</div>
+      <div class="subnav-link" onclick="filterByBrand('OPPO', this)">💎 OPPO Reno & Find</div>
+      <div class="subnav-link" onclick="filterByBrand('Vivo', this)">📸 Vivo Zeiss</div>
+      <div class="subnav-link" onclick="filterBySpecial('flash-sale', this)">🔥 Giờ Vàng Giá Sốc</div>
+      <div class="subnav-link" onclick="filterBySpecial('0-percent', this)">🎁 Ưu Đãi Trả Góp 0%</div>
+    </div>
+  </div>
+
+  <!-- MAIN VIEWPORT -->
+  <main>
+
+    <!-- 4 COMMITMENT PILLARS -->
+    <div class="commitments-row">
+      <div class="commitment-card">
+        <div class="commitment-icon">🛡️</div>
+        <div>
+          <div class="commitment-title">100% Chính Hãng VN/A</div>
+          <div class="commitment-desc">Bảo hành ủy quyền Apple & Samsung</div>
+        </div>
+      </div>
+      <div class="commitment-card">
+        <div class="commitment-icon">⚡</div>
+        <div>
+          <div class="commitment-title">Giao Hỏa Tốc 1 Giờ</div>
+          <div class="commitment-desc">Miễn phí ship đơn hàng trên 5 triệu</div>
+        </div>
+      </div>
+      <div class="commitment-card">
+        <div class="commitment-icon">🔄</div>
+        <div>
+          <div class="commitment-title">1 Đổi 1 Trong 30 Ngày</div>
+          <div class="commitment-desc">Lỗi nhà sản xuất đổi mới nguyên seal</div>
+        </div>
+      </div>
+      <div class="commitment-card">
+        <div class="commitment-icon">💳</div>
+        <div>
+          <div class="commitment-title">Trả Góp 0% Lãi Suất</div>
+          <div class="commitment-desc">Duyệt hồ sơ online chỉ trong 5 phút</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO & FLASH SALE (CLEAN LIGHT DESIGN) -->
+    <section class="hero-grid">
+      <div class="hero-banner">
+        <div>
+          <span class="badge badge-primary" style="margin-bottom: 12px;">CHIẾN DỊCH QUỐC GIA 2026</span>
+          <h1 style="font-size: 30px; font-weight: 800; margin: 8px 0; line-height: 1.2; color: #0f172a;">
+            iPhone 16 Pro Max Titan Sa Mạc<br>
+            <span style="color: #d32f2f;">Thu Cũ Trợ Giá 2.500.000₫ – Trả Góp 0%</span>
+          </h1>
+          <p style="color: var(--text-muted); font-size: 13px; max-width: 520px; margin-top: 6px;">
+            Nhập khẩu chính ngạch Apple Việt Nam (VN/A). Tặng kèm củ sạc nhanh 20W + Bảo hành chính hãng 12 tháng. Giao hàng miễn phí toàn quốc.
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button class="btn btn-primary" onclick="openProductById('p-ip16pm')">⚡ Mua Ngay Khuyến Mãi</button>
+          <button class="btn btn-outline" onclick="openTradeInModal()">Định Giá Máy Cũ Thu Lại</button>
+        </div>
+      </div>
+
+      <div class="hero-flash-sale">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <strong style="color: #d32f2f; font-size: 13px; text-transform: uppercase;">🔥 GIỜ VÀNG GIẢM SỐC</strong>
+          <span class="badge badge-primary">SỐ LƯỢNG GIỚI HẠN</span>
+        </div>
+
+        <div>
+          <div style="font-size: 12px; color: var(--text-muted);">Ưu đãi kết thúc sau:</div>
+          <div class="timer-wrap">
+            <div class="timer-box mono" id="timerHours">04</div>:
+            <div class="timer-box mono" id="timerMins">35</div>:
+            <div class="timer-box mono" id="timerSecs">28</div>
+          </div>
+          <div style="font-size: 12px; color: #b71c1c; font-weight: 600; margin-bottom: 6px;">
+            Galaxy S24 Ultra & Xiaomi 14T Pro giảm thẳng tới 7.000.000₫
+          </div>
+          <div style="background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden;">
+            <div style="width: 82%; background: #d32f2f; height: 100%;"></div>
+          </div>
+          <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">Đã bán 82/100 suất</div>
+        </div>
+
+        <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="filterBySpecial('flash-sale')">
+          Xem Tất Cả Sản Phẩm Giảm Sốc ➔
+        </button>
+      </div>
+    </section>
+
+    <!-- BRAND QUICK PILLS -->
+    <div class="brand-bar">
+      <div class="brand-pill active" onclick="filterByBrand('all', this)">Tất cả thương hiệu</div>
+      <div class="brand-pill" onclick="filterByBrand('Apple', this)">🍏 Apple iPhone</div>
+      <div class="brand-pill" onclick="filterByBrand('Samsung', this)">🪐 Samsung Galaxy</div>
+      <div class="brand-pill" onclick="filterByBrand('Xiaomi', this)">⚡ Xiaomi</div>
+      <div class="brand-pill" onclick="filterByBrand('OPPO', this)">💎 OPPO</div>
+      <div class="brand-pill" onclick="filterByBrand('Vivo', this)">📸 Vivo</div>
+      <div class="brand-pill" onclick="filterByPrice('under-10')">Dưới 10 Triệu</div>
+      <div class="brand-pill" onclick="filterByPrice('10-20')">10 – 20 Triệu</div>
+      <div class="brand-pill" onclick="filterByPrice('over-20')">Flagship Trên 20 Triệu</div>
+    </div>
+
+    <!-- PRODUCTS GRID HEADER -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div style="font-size: 16px; font-weight: 800; color: #0f172a;">
+        <span id="catalogTitle">Sản Phẩm Nổi Bật Chính Hãng</span>
+        <span class="badge badge-blue" id="productCountBadge" style="margin-left: 6px;">20 SẢN PHẨM</span>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <select id="sortSelect" class="form-select btn-sm" onchange="handleSort()" style="width: auto;">
+          <option value="featured">Sắp xếp: Bán chạy nhất</option>
+          <option value="price-asc">Giá: Thấp đến Cao</option>
+          <option value="price-desc">Giá: Cao đến Thấp</option>
+          <option value="discount">Ưu đãi nhiều nhất</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- PRODUCTS GRID -->
+    <div class="products-grid" id="productsContainer">
+      <!-- Rendered dynamically -->
+    </div>
+  </main>
+
+  <!-- FLOATING COMPARISON BAR -->
+  <div class="compare-bar" id="compareBar">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 18px;">⚖️</span>
+      <span style="font-size: 13px; font-weight: 700; color: #0f172a;">So sánh cấu hình (<span id="compareCount">0</span>/3)</span>
+    </div>
+    <div id="compareThumbsPreview" style="display: flex; gap: 6px;"></div>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn btn-outline btn-sm" onclick="clearComparison()">Xóa</button>
+      <button class="btn btn-primary btn-sm" onclick="openCompareModal()">So Sánh Ngay</button>
+    </div>
+  </div>
+
+  <!-- MODAL: PRODUCT DETAIL (PDP) -->
+  <div class="modal-overlay" id="pdpModal">
+    <div class="modal-card" style="max-width: 900px;">
+      <div class="modal-header">
+        <div style="font-size: 16px; font-weight: 800; color: #0f172a;" id="pdpModalTitle">Chi Tiết Sản Phẩm</div>
+        <button class="btn btn-outline btn-sm btn-icon" onclick="closeModal('pdpModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="pdp-grid">
+          <!-- Left: Image & Thumbnails -->
+          <div class="pdp-image-col">
+            <img id="pdpMainImg" class="pdp-main-img" src="" alt="Phone">
+            <div style="font-size: 12px; color: var(--text-dim); margin-top: 10px;">
+              Màu sắc: <strong id="pdpColorLabel" class="text-primary">—</strong>
+            </div>
+          </div>
+
+          <!-- Right: Details, Storage, Colors, Pricing -->
+          <div>
+            <h2 id="pdpName" style="font-size: 20px; font-weight: 800; margin-bottom: 6px; line-height: 1.3; color: #0f172a;">—</h2>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+              <span class="badge badge-emerald">CHÍNH HÃNG VN/A</span>
+              <span style="font-size: 12px; color: var(--text-dim);" id="pdpRating">⭐ 5.0 (342 đánh giá xác thực)</span>
+            </div>
+
+            <!-- Price -->
+            <div style="background: #f8fafc; padding: 14px 18px; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 16px;">
+              <div style="display: flex; align-items: baseline; gap: 10px;">
+                <span id="pdpPrice" class="mono" style="font-size: 24px; font-weight: 800; color: #d32f2f;">—</span>
+                <span id="pdpOldPrice" class="product-old-price mono">—</span>
+                <span id="pdpDiscount" class="product-discount-tag">—</span>
+              </div>
+              <div style="font-size: 11px; color: var(--emerald); font-weight: 600; margin-top: 4px;">
+                ✓ Giảm thêm 500.000₫ khi thanh toán quét mã VietQR tự động
+              </div>
+            </div>
+
+            <!-- Storage Selector -->
+            <div style="margin-bottom: 12px;">
+              <div class="form-label">Chọn phiên bản bộ nhớ:</div>
+              <div class="variant-btn-group" id="pdpStorageGroup"></div>
+            </div>
+
+            <!-- Color Selector -->
+            <div style="margin-bottom: 16px;">
+              <div class="form-label">Chọn màu sắc:</div>
+              <div class="variant-btn-group" id="pdpColorGroup"></div>
+            </div>
+
+            <!-- Promotion Perks -->
+            <div style="background: rgba(211, 47, 47, 0.04); border: 1px dashed rgba(211, 47, 47, 0.3); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; margin-bottom: 18px; line-height: 1.6;">
+              <strong style="color: #b71c1c;">🎁 Đặc quyền doanh nghiệp tại Hai Dang Mobile:</strong><br>
+              • Thu cũ đổi mới trợ giá lên đời tới 2.500.000₫.<br>
+              • Tặng củ sạc Type-C 20W trị giá 490.000₫ + Ốp lưng chính hãng.<br>
+              • Hỗ trợ trả góp 0% qua thẻ tín dụng và CCCD không giữ giấy tờ.
+            </div>
+
+            <!-- Actions -->
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-primary" style="flex: 2; padding: 12px;" onclick="buyNowFromPdp()">
+                ⚡ MUA NGAY (Giao Hỏa Tốc 1h)
+              </button>
+              <button class="btn btn-secondary" style="flex: 1;" onclick="addToCartFromPdp()">
+                🛒 Thêm Giỏ
+              </button>
+              <button class="btn btn-outline" style="flex: 1;" onclick="openInstallmentForCurrentPdp()">
+                💳 Trả Góp 0%
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specs Sheet Accordion / Section -->
+        <div style="margin-top: 24px; border-top: 1px solid var(--border); padding-top: 16px;">
+          <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #0f172a;">Thông Số Kỹ Thuật Chi Tiết</h3>
+          <div id="pdpSpecsTable" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: COMPARISON (SO SÁNH) -->
+  <div class="modal-overlay" id="compareModal">
+    <div class="modal-card" style="max-width: 960px;">
+      <div class="modal-header">
+        <div style="font-size: 16px; font-weight: 800; color: #0f172a;">So Sánh Cấu Hình Điện Thoại Đối Đầu</div>
+        <button class="btn btn-outline btn-sm btn-icon" onclick="closeModal('compareModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+            <thead id="compareTableHead"></thead>
+            <tbody id="compareTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: INSTALLMENT 0% CALCULATOR -->
+  <div class="modal-overlay" id="installmentModal">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <div style="font-size: 16px; font-weight: 800; color: #0f172a;">Bộ Tính Trả Góp 0% Lãi Suất</div>
+        <button class="btn btn-outline btn-sm btn-icon" onclick="closeModal('installmentModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Chọn điện thoại muốn mua trả góp:</label>
+          <select id="instPhoneSelect" class="form-select" onchange="calculateInstallment()"></select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Mức trả trước:</label>
+            <select id="instPrepaySelect" class="form-select" onchange="calculateInstallment()">
+              <option value="0.2">Trả trước 20%</option>
+              <option value="0.3" selected>Trả trước 30% (Khuyên dùng)</option>
+              <option value="0.5">Trả trước 50%</option>
+              <option value="0.7">Trả trước 70%</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kỳ hạn trả góp:</label>
+            <select id="instTermSelect" class="form-select" onchange="calculateInstallment()">
+              <option value="3">3 Tháng (0% lãi suất)</option>
+              <option value="6" selected>6 Tháng (0% lãi suất)</option>
+              <option value="9">9 Tháng (0% lãi suất)</option>
+              <option value="12">12 Tháng (0% lãi suất)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-top: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 12px;">
+            <div>
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">GIÁ MÁY NIÊM YẾT</div>
+              <div style="font-size: 18px; font-weight: 800;" class="mono" id="instPrice">0₫</div>
+            </div>
+            <div>
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">SỐ TIỀN TRẢ TRƯỚC</div>
+              <div style="font-size: 18px; font-weight: 800; color: #1d4ed8;" class="mono" id="instPrepayAmount">0₫</div>
+            </div>
+          </div>
+
+          <div style="border-top: 1px dashed var(--border); padding-top: 12px; display: flex; justify-content: space-between; align-items: baseline;">
+            <div>
+              <div style="font-size: 13px; font-weight: 700; color: #b71c1c;">SỐ TIỀN GÓP MỖI THÁNG:</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Không phát sinh phụ phí bảo hiểm, miễn phí hồ sơ</div>
+            </div>
+            <div style="font-size: 24px; font-weight: 800; color: #059669;" class="mono" id="instMonthlyPayment">0₫ / tháng</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('installmentModal')">Đóng</button>
+        <button class="btn btn-primary" onclick="applyInstallmentOrder()">Tiếp Tục Đăng Ký Hồ Sơ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TRADE-IN (THU CŨ ĐỔI MỚI) -->
+  <div class="modal-overlay" id="tradeInModal">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <div style="font-size: 16px; font-weight: 800; color: #0f172a;">Định Giá Thu Cũ Lên Đời (Trợ Giá Tới 2.5TR)</div>
+        <button class="btn btn-outline btn-sm btn-icon" onclick="closeModal('tradeInModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Chọn dòng điện thoại cũ bạn đang dùng:</label>
+          <select id="tradeOldModelSelect" class="form-select" onchange="calculateTradeIn()">
+            <option value="12000000">iPhone 14 Pro Max 128GB</option>
+            <option value="9500000">iPhone 13 Pro Max 128GB</option>
+            <option value="7500000">iPhone 13 128GB</option>
+            <option value="5500000">iPhone 12 128GB</option>
+            <option value="11000000">Samsung Galaxy S23 Ultra 256GB</option>
+            <option value="7000000">Samsung Galaxy S22 Ultra 128GB</option>
+            <option value="5000000">Xiaomi 13 Pro 256GB</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tình trạng máy cũ của bạn:</label>
+          <select id="tradeConditionSelect" class="form-select" onchange="calculateTradeIn()">
+            <option value="1.0">Loại 1: Thân máy đẹp keng, màn hình đẹp, mọi chức năng hoàn hảo</option>
+            <option value="0.85">Loại 2: Thân máy trầy xước nhẹ viền, màn hình đẹp, pin trên 80%</option>
+            <option value="0.70">Loại 3: Thân máy cấn móp nhẹ, màn hình ám nhẹ hoặc pin chai</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Muốn lên đời máy mới nào:</label>
+          <select id="tradeNewModelSelect" class="form-select" onchange="calculateTradeIn()"></select>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-top: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <div style="font-size: 11px; color: var(--text-dim);">GIÁ THU MÁY CŨ DỰ KIẾN:</div>
+              <div style="font-size: 18px; font-weight: 800; color: #1d4ed8;" class="mono" id="tradeEstOldPrice">0₫</div>
+            </div>
+            <div>
+              <div style="font-size: 11px; color: var(--text-dim);">TRỢ GIÁ LÊN ĐỜI (TẶNG THÊM):</div>
+              <div style="font-size: 18px; font-weight: 800; color: #059669;" class="mono">+ 2.000.000₫</div>
+            </div>
+          </div>
+          <div style="border-top: 1px dashed var(--border); padding-top: 12px; display: flex; justify-content: space-between; align-items: baseline;">
+            <div>
+              <strong style="color: #b71c1c; font-size: 13px;">SỐ TIỀN CẦN BÙ THÊM:</strong>
+              <div style="font-size: 11px; color: var(--text-muted);">Có thể thanh toán thẳng hoặc trả góp 0% số tiền bù</div>
+            </div>
+            <div style="font-size: 24px; font-weight: 800; color: #d32f2f;" class="mono" id="tradeDifference">0₫</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('tradeInModal')">Đóng</button>
+        <button class="btn btn-primary" onclick="confirmTradeInPlan()">Đăng Ký Thu Cũ Đổi Mới</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CART & CHECKOUT -->
+  <div class="modal-overlay" id="cartModal">
+    <div class="modal-card" style="max-width: 800px;">
+      <div class="modal-header">
+        <div style="font-size: 16px; font-weight: 800; color: #0f172a;">Giỏ Hàng & Đặt Hàng Trực Tuyến</div>
+        <button class="btn btn-outline btn-sm btn-icon" onclick="closeModal('cartModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <!-- Left: Items List -->
+          <div>
+            <h3 style="font-size: 13px; font-weight: 800; margin-bottom: 10px; color: #334155;">DANH SÁCH SẢN PHẨM</h3>
+            <div id="cartItemsList" style="display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto;"></div>
+
+            <!-- Voucher -->
+            <div style="margin-top: 14px; display: flex; gap: 8px;">
+              <input type="text" id="voucherInput" class="form-input" placeholder="Mã ưu đãi: IPHONE2026, FREESHIP">
+              <button class="btn btn-outline btn-sm" onclick="applyVoucher()">Áp Dụng</button>
+            </div>
+
+            <!-- Total summary -->
+            <div style="background: #f8fafc; padding: 14px; border-radius: var(--radius); border: 1px solid var(--border); margin-top: 14px; font-size: 13px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="color: var(--text-muted);">Tạm tính:</span>
+                <span class="mono" id="cartSubtotal">0₫</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="color: var(--text-muted);">Giảm giá Voucher:</span>
+                <span class="mono text-emerald" id="cartDiscount">-0₫</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="color: var(--text-muted);">Phí vận chuyển:</span>
+                <span class="mono text-emerald" id="cartShipping">MIỄN PHÍ</span>
+              </div>
+              <div style="border-top: 1px dashed var(--border); padding-top: 8px; display: flex; justify-content: space-between; font-weight: 800; font-size: 16px;">
+                <span>Tổng thanh toán:</span>
+                <span class="mono text-primary" id="cartGrandTotal">0₫</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Customer Info & Payment -->
+          <div>
+            <h3 style="font-size: 13px; font-weight: 800; margin-bottom: 10px; color: #334155;">THÔNG TIN NHẬN HÀNG</h3>
+            <form id="checkoutForm" onsubmit="submitOrder(event)">
+              <div class="form-group">
+                <label class="form-label">Họ và tên người nhận (*):</label>
+                <input type="text" id="custName" class="form-input" required placeholder="Nguyễn Văn A">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Số điện thoại (*):</label>
+                  <input type="tel" id="custPhone" class="form-input" required placeholder="0901234567">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Tỉnh / Thành phố:</label>
+                  <select id="custCity" class="form-select">
+                    <option value="Hà Nội">Hà Nội (Hỏa tốc 1h)</option>
+                    <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh (Hỏa tốc 1h)</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+                    <option value="Khác">Tỉnh thành khác</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Địa chỉ chi tiết (Số nhà, tên đường):</label>
+                <input type="text" id="custAddress" class="form-input" required placeholder="Ví dụ: 123 Cầu Giấy, P. Dịch Vọng">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Phương thức thanh toán:</label>
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="radio" name="payMethod" value="vietqr" checked>
+                    <span><strong>⚡ Chuyển khoản VietQR tự động</strong> (Giảm thêm 500k)</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="radio" name="payMethod" value="cod">
+                    <span>💵 Thanh toán khi nhận hàng (COD đồng kiểm)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div style="margin-top: 16px;">
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
+                  XÁC NHẬN ĐẶT HÀNG NGAY
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ORDER SUCCESS -->
+  <div class="modal-overlay" id="orderSuccessModal">
+    <div class="modal-card" style="max-width: 540px; text-align: center;">
+      <div class="modal-body" style="padding: 32px;">
+        <div style="font-size: 48px; margin-bottom: 10px;">🎉</div>
+        <h2 style="font-size: 20px; font-weight: 800; color: #059669; margin-bottom: 6px;">ĐẶT HÀNG THÀNH CÔNG!</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+          Mã đơn hàng: <strong class="mono text-primary" id="successOrderId">HD-ORD-000000</strong>
+        </p>
+
+        <!-- VietQR Box if chosen -->
+        <div id="vietqrBox" style="background: #f8fafc; padding: 18px; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 16px; display: none;">
+          <div style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">QUÉT MÃ VIETQR ĐỂ HOÀN TẤT THANH TOÁN</div>
+          <img id="vietqrImg" src="" alt="VietQR" style="max-width: 200px; border-radius: 8px; border: 2px solid #e2e8f0; margin-bottom: 8px; background: #fff;">
+          <div style="font-size: 11px; color: var(--text-muted);">
+            Ngân hàng Techcombank • STK: <strong>190368889999</strong> • Chủ TK: <strong>CONG TY HAI DANG MOBILE VN</strong>
+          </div>
+        </div>
+
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">
+          Nhân viên tổng đài chăm sóc khách hàng 1800.6868 sẽ liên hệ xác nhận đơn trong 5 phút. Cảm ơn quý khách đã tin tưởng Hai Dang Mobile!
+        </p>
+
+        <button class="btn btn-primary" onclick="closeModal('orderSuccessModal'); openOrdersModal();">
+          Xem Lịch Sử Đơn Hàng Của Tôi
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ORDERS MANAGEMENT -->
+  <div class="modal-overlay" id="ordersModal">
+    <div class="modal-card" style="max-width: 760px;">
+      <div class="modal-header">
+        <div style="font-size: 16px; font-weight: 800; color: #0f172a;">Tra Cứu & Quản Lý Đơn Hàng</div>
+        <button class="btn btn-outline btn-sm btn-icon" onclick="closeModal('ordersModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="ordersListContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer"></div>
+
+  <!-- CORPORATE ENTERPRISE FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="brand-wrap" style="margin-bottom: 12px;">
+          <div class="brand-logo-icon">📱</div>
+          <div class="brand-title" style="font-size: 18px;">HAI DANG MOBILE</div>
+        </div>
+        <p style="margin-bottom: 10px; line-height: 1.6;">
+          Công ty Cổ phần Bán lẻ Kỹ thuật số Hải Đăng (Hai Dang Mobile).<br>
+          Giấy chứng nhận ĐKKD số: 0108992834 do Sở KH&ĐT TP. Hà Nội cấp.<br>
+          Địa chỉ: Tòa nhà Hai Dang Tower, Cầu Giấy, TP. Hà Nội.
+        </p>
+        <div style="display: flex; gap: 10px; align-items: center; margin-top: 12px;">
+          <span class="badge badge-emerald">✓ ĐÃ THÔNG BÁO BỘ CÔNG THƯƠNG</span>
+          <span class="badge badge-blue">🔒 SSL 256-BIT SECURE</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Hỗ Trợ Khách Hàng</div>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">Quy định bảo hành chính hãng</a></li>
+          <li><a href="#" onclick="return false;">Chính sách 1 đổi 1 trong 30 ngày</a></li>
+          <li><a href="#" onclick="return false;">Hướng dẫn mua hàng trả góp 0%</a></li>
+          <li><a href="#" onclick="return false;">Chính sách giao hàng hỏa tốc 1h</a></li>
+          <li><a href="#" onclick="return false;">Tra cứu hóa đơn điện tử VAT</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Về Chúng Tôi</div>
+        <ul class="footer-links">
+          <li><a href="#" onclick="return false;">Giới thiệu tổng công ty</a></li>
+          <li><a href="#" onclick="return false;">Hệ thống 120 cửa hàng</a></li>
+          <li><a href="#" onclick="return false;">Bán hàng Doanh nghiệp (B2B)</a></li>
+          <li><a href="#" onclick="return false;">Tuyển dụng nhân tài 2026</a></li>
+          <li><a href="#" onclick="return false;">Tin tức công nghệ mới</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Tổng Đài Miễn Cước</div>
+        <p style="margin-bottom: 6px;">Tư vấn mua hàng: <strong style="color:#d32f2f;">1800.6868</strong> (8h00 - 21h30)</p>
+        <p style="margin-bottom: 6px;">Hỗ trợ kỹ thuật: <strong>1800.6869</strong> (8h00 - 21h00)</p>
+        <p style="margin-bottom: 12px;">Khiếu nại dịch vụ: <strong>1800.6870</strong></p>
+        <div class="footer-col-title" style="margin-top: 16px;">Phương Thức Thanh Toán</div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
+          <span class="spec-tag">VietQR</span>
+          <span class="spec-tag">VNPAY</span>
+          <span class="spec-tag">Visa / Master</span>
+          <span class="spec-tag">COD Đồng kiểm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 Hai Dang Mobile. Bảo lưu mọi quyền. Nội dung được bảo hộ bản quyền.</div>
+      <div>Designed for Corporate Enterprise Excellence.</div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    // --- 1. PRODUCT DATABASE (20 REALISTIC FLAGSHIPS) ---
+    const PRODUCTS_DATA = [
+      {
+        id: "p-ip16pm",
+        name: "iPhone 16 Pro Max Chính Hãng VN/A",
+        brand: "Apple",
+        basePrice: 34490000,
+        originalPrice: 37990000,
+        badge: "Hot",
+        rating: 5.0,
+        reviewsCount: 342,
+        isFlashSale: true,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "6.9\" Super Retina XDR OLED 120Hz ProMotion 2000 nits",
+          chip: "Apple A18 Pro (3nm thế hệ 2)",
+          ram: "8GB",
+          cameraRear: "48MP Chính + 48MP Góc Rộng + 12MP Tele 5x",
+          cameraFront: "12MP TrueDepth",
+          battery: "4.685 mAh, Sạc nhanh MagSafe 25W",
+          weight: "227g",
+          os: "iOS 18"
+        },
+        storages: [
+          { name: "256GB", extra: 0 },
+          { name: "512GB", extra: 5500000 },
+          { name: "1TB", extra: 11500000 }
+        ],
+        colors: [
+          { name: "Titan Sa Mạc", hex: "#c2ab95", img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80" },
+          { name: "Titan Tự Nhiên", hex: "#9b9690", img: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=80" },
+          { name: "Titan Đen", hex: "#323334", img: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80" },
+          { name: "Titan Trắng", hex: "#f2f3f5", img: "https://images.unsplash.com/photo-1530319067432-f2a729c03db5?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-ip16p",
+        name: "iPhone 16 Pro Chính Hãng VN/A",
+        brand: "Apple",
+        basePrice: 28490000,
+        originalPrice: 30990000,
+        badge: "Mới Ra Mắt",
+        rating: 4.9,
+        reviewsCount: 185,
+        isFlashSale: false,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "6.3\" Super Retina XDR OLED 120Hz 2000 nits",
+          chip: "Apple A18 Pro (3nm)",
+          ram: "8GB",
+          cameraRear: "48MP Chính + 48MP Góc Siêu Rộng + 12MP Tele 5x",
+          cameraFront: "12MP TrueDepth",
+          battery: "3.582 mAh",
+          weight: "199g",
+          os: "iOS 18"
+        },
+        storages: [
+          { name: "128GB", extra: 0 },
+          { name: "256GB", extra: 2800000 },
+          { name: "512GB", extra: 8200000 }
+        ],
+        colors: [
+          { name: "Titan Sa Mạc", hex: "#c2ab95", img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80" },
+          { name: "Titan Đen", hex: "#323334", img: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-ip16",
+        name: "iPhone 16 Chính Hãng VN/A",
+        brand: "Apple",
+        basePrice: 22490000,
+        originalPrice: 24990000,
+        badge: "Bán Chạy",
+        rating: 4.8,
+        reviewsCount: 220,
+        isFlashSale: false,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1530319067432-f2a729c03db5?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "6.1\" Super Retina XDR OLED 2000 nits",
+          chip: "Apple A18 (3nm)",
+          ram: "8GB",
+          cameraRear: "48MP Fusion + 12MP Siêu Rộng",
+          cameraFront: "12MP",
+          battery: "3.561 mAh",
+          weight: "170g",
+          os: "iOS 18"
+        },
+        storages: [
+          { name: "128GB", extra: 0 },
+          { name: "256GB", extra: 2700000 }
+        ],
+        colors: [
+          { name: "Hồng Pastel", hex: "#fbcfe8", img: "https://images.unsplash.com/photo-1530319067432-f2a729c03db5?auto=format&fit=crop&w=600&q=80" },
+          { name: "Xanh Mòng Két", hex: "#2dd4bf", img: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-s24u",
+        name: "Samsung Galaxy S24 Ultra 5G AI",
+        brand: "Samsung",
+        basePrice: 26990000,
+        originalPrice: 33990000,
+        badge: "Giảm 7TR",
+        rating: 4.9,
+        reviewsCount: 412,
+        isFlashSale: true,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "6.8\" Dynamic AMOLED 2X 120Hz 2600 nits, Kính chống chói Gorilla Armor",
+          chip: "Snapdragon 8 Gen 3 for Galaxy (4nm)",
+          ram: "12GB",
+          cameraRear: "200MP Chính + 50MP Periscope 5x + 12MP Siêu Rộng + 10MP Tele 3x",
+          cameraFront: "12MP",
+          battery: "5.000 mAh, Sạc nhanh 45W",
+          weight: "232g, Tích hợp bút S-Pen",
+          os: "Android 14 (One UI 6.1 Galaxy AI)"
+        },
+        storages: [
+          { name: "256GB", extra: 0 },
+          { name: "512GB", extra: 4000000 },
+          { name: "1TB", extra: 9000000 }
+        ],
+        colors: [
+          { name: "Xám Titan", hex: "#8a8a8a", img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80" },
+          { name: "Đen Titan", hex: "#222222", img: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-zfold6",
+        name: "Samsung Galaxy Z Fold 6 5G",
+        brand: "Samsung",
+        basePrice: 39990000,
+        originalPrice: 43990000,
+        badge: "Gập Đỉnh Cao",
+        rating: 4.8,
+        reviewsCount: 96,
+        isFlashSale: false,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "Chính 7.6\" Dynamic AMOLED 2X 120Hz + Phụ 6.3\"",
+          chip: "Snapdragon 8 Gen 3 for Galaxy",
+          ram: "12GB",
+          cameraRear: "50MP + 12MP + 10MP",
+          cameraFront: "10MP + 4MP UDC",
+          battery: "4.400 mAh, Sạc 25W",
+          weight: "239g",
+          os: "Android 14 Galaxy AI"
+        },
+        storages: [
+          { name: "256GB", extra: 0 },
+          { name: "512GB", extra: 4500000 }
+        ],
+        colors: [
+          { name: "Xám Metal", hex: "#71717a", img: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=600&q=80" },
+          { name: "Xanh Navy", hex: "#1e3a8a", img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-mi14u",
+        name: "Xiaomi 14 Ultra Leica 5G",
+        brand: "Xiaomi",
+        basePrice: 28990000,
+        originalPrice: 32990000,
+        badge: "Camera Khủng",
+        rating: 4.9,
+        reviewsCount: 154,
+        isFlashSale: true,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "6.73\" LTPO AMOLED 120Hz 3000 nits WQHD+",
+          chip: "Snapdragon 8 Gen 3 (4nm)",
+          ram: "16GB",
+          cameraRear: "Hệ thống 4 camera 50MP cảm biến 1-inch Sony LYT-900 tinh chỉnh Leica",
+          cameraFront: "32MP",
+          battery: "5.000 mAh, Sạc có dây 90W + Sạc không dây 80W",
+          weight: "220g",
+          os: "Xiaomi HyperOS"
+        },
+        storages: [
+          { name: "512GB", extra: 0 }
+        ],
+        colors: [
+          { name: "Đen Da Nano", hex: "#1f1f1f", img: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80" },
+          { name: "Trắng Gốm", hex: "#e5e7eb", img: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-mi14tpro",
+        name: "Xiaomi 14T Pro 5G (Leica)",
+        brand: "Xiaomi",
+        basePrice: 15990000,
+        originalPrice: 17990000,
+        badge: "Hot Deal",
+        rating: 4.8,
+        reviewsCount: 110,
+        isFlashSale: true,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "6.67\" AMOLED 144Hz 4000 nits",
+          chip: "MediaTek Dimensity 9300+ (4nm)",
+          ram: "12GB",
+          cameraRear: "50MP Leica + 50MP Tele + 12MP Siêu Rộng",
+          cameraFront: "32MP",
+          battery: "5.000 mAh, Sạc siêu nhanh 120W HyperCharge",
+          weight: "209g",
+          os: "Xiaomi HyperOS"
+        },
+        storages: [
+          { name: "256GB", extra: 0 },
+          { name: "512GB", extra: 1800000 }
+        ],
+        colors: [
+          { name: "Xám Titan", hex: "#64748b", img: "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-oppofindn3",
+        name: "OPPO Find N3 5G Gập Flagship",
+        brand: "OPPO",
+        basePrice: 41990000,
+        originalPrice: 44990000,
+        badge: "Đẳng Cấp",
+        rating: 5.0,
+        reviewsCount: 65,
+        isFlashSale: false,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "Chính 7.82\" 120Hz 2800 nits + Phụ 6.31\"",
+          chip: "Snapdragon 8 Gen 2 (4nm)",
+          ram: "16GB",
+          cameraRear: "48MP Hasselblad + 64MP Tele tiềm vọng + 48MP Siêu Rộng",
+          cameraFront: "20MP + 32MP",
+          battery: "4.805 mAh, Sạc nhanh 67W SuperVOOC",
+          weight: "239g",
+          os: "ColorOS 14"
+        },
+        storages: [
+          { name: "512GB", extra: 0 }
+        ],
+        colors: [
+          { name: "Vàng Cổ Điển", hex: "#d4af37", img: "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-vivox100p",
+        name: "Vivo X100 Pro 5G (Ống kính Zeiss)",
+        brand: "Vivo",
+        basePrice: 20490000,
+        originalPrice: 22990000,
+        badge: "Zeiss APO",
+        rating: 4.9,
+        reviewsCount: 88,
+        isFlashSale: false,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "6.78\" LTPO AMOLED 120Hz 3000 nits",
+          chip: "Dimensity 9300 (4nm)",
+          ram: "16GB",
+          cameraRear: "50MP 1-inch + 50MP Tele tiềm vọng Zeiss APO + 50MP Siêu Rộng",
+          cameraFront: "32MP",
+          battery: "5.400 mAh, Sạc 100W",
+          weight: "225g",
+          os: "Funtouch OS 14"
+        },
+        storages: [
+          { name: "512GB", extra: 0 }
+        ],
+        colors: [
+          { name: "Xanh Nhật Thực", hex: "#0284c7", img: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      {
+        id: "p-ip13",
+        name: "iPhone 13 128GB Chính Hãng VN/A",
+        brand: "Apple",
+        basePrice: 13490000,
+        originalPrice: 16990000,
+        badge: "Quốc Dân",
+        rating: 4.8,
+        reviewsCount: 650,
+        isFlashSale: false,
+        has0Percent: true,
+        image: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80",
+        specs: {
+          screen: "6.1\" Super Retina XDR OLED",
+          chip: "Apple A15 Bionic (5nm)",
+          ram: "4GB",
+          cameraRear: "Kép 12MP Chống rung quang học Sensor-shift",
+          cameraFront: "12MP",
+          battery: "3.240 mAh",
+          weight: "174g",
+          os: "iOS 18 tương thích"
+        },
+        storages: [
+          { name: "128GB", extra: 0 }
+        ],
+        colors: [
+          { name: "Trắng Starlight", hex: "#f1f5f9", img: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80" },
+          { name: "Đen Midnight", hex: "#1e293b", img: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=80" }
+        ]
+      }
+    ];
+
+    // --- 2. GLOBAL STATE ---
+    let appState = {
+      cart: [],
+      comparisonList: [], // max 3 phones
+      orders: [],
+      activeBrandFilter: 'all',
+      activePriceFilter: 'all',
+      searchQuery: '',
+      activeSort: 'featured',
+      selectedPdpPhone: null,
+      selectedPdpStorage: 0,
+      selectedPdpColor: 0,
+      appliedVoucher: null
+    };
+
+    // --- 3. LOCAL STORAGE PERSISTENCE ---
+    function loadAppState() {
+      try {
+        const rawCart = localStorage.getItem('haidang_cart') || localStorage.getItem('techphone_cart');
+        if (rawCart) appState.cart = JSON.parse(rawCart);
+
+        const rawOrders = localStorage.getItem('haidang_orders') || localStorage.getItem('techphone_orders');
+        if (rawOrders) appState.orders = JSON.parse(rawOrders);
+      } catch (e) {
+        console.error('Storage parse error', e);
+      }
+      updateCartBadge();
+    }
+
+    function saveCart() {
+      localStorage.setItem('haidang_cart', JSON.stringify(appState.cart));
+      updateCartBadge();
+    }
+
+    function saveOrders() {
+      localStorage.setItem('haidang_orders', JSON.stringify(appState.orders));
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cartCountBadge');
+      const total = appState.cart.reduce((s, i) => s + i.qty, 0);
+      if (badge) badge.textContent = total;
+    }
+
+    // --- 4. FORMATTING UTILITIES ---
+    function formatVND(num) {
+      if (isNaN(num)) return '0₫';
+      return new Intl.NumberFormat('vi-VN').format(Math.round(num)) + '₫';
+    }
+
+    function showToast(msg, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      let icon = '✓';
+      if (type === 'error') icon = '✕';
+      if (type === 'info') icon = 'ℹ️';
+      toast.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.25s ease';
+        setTimeout(() => toast.remove(), 250);
+      }, 3000);
+    }
+
+    // --- 5. PRODUCT CATALOG RENDERING & FILTERING ---
+    function renderCatalog() {
+      const container = document.getElementById('productsContainer');
+      container.innerHTML = '';
+
+      let list = [...PRODUCTS_DATA];
+
+      // Brand filter
+      if (appState.activeBrandFilter !== 'all') {
+        list = list.filter(p => p.brand.toLowerCase() === appState.activeBrandFilter.toLowerCase());
+      }
+
+      // Price filter
+      if (appState.activePriceFilter === 'under-10') {
+        list = list.filter(p => p.basePrice < 10000000);
+      } else if (appState.activePriceFilter === '10-20') {
+        list = list.filter(p => p.basePrice >= 10000000 && p.basePrice <= 20000000);
+      } else if (appState.activePriceFilter === 'over-20') {
+        list = list.filter(p => p.basePrice > 20000000);
+      }
+
+      // Special filters
+      if (appState.activeSpecialFilter === 'flash-sale') {
+        list = list.filter(p => p.isFlashSale);
+      } else if (appState.activeSpecialFilter === '0-percent') {
+        list = list.filter(p => p.has0Percent);
+      }
+
+      // Search Query
+      if (appState.searchQuery) {
+        const q = appState.searchQuery.toLowerCase();
+        list = list.filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
+      }
+
+      // Sort
+      if (appState.activeSort === 'price-asc') {
+        list.sort((a, b) => a.basePrice - b.basePrice);
+      } else if (appState.activeSort === 'price-desc') {
+        list.sort((a, b) => b.basePrice - a.basePrice);
+      } else if (appState.activeSort === 'discount') {
+        list.sort((a, b) => (b.originalPrice - b.basePrice) - (a.originalPrice - a.basePrice));
+      }
+
+      document.getElementById('productCountBadge').textContent = `${list.length} SẢN PHẨM`;
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-dim); background:#fff; border-radius:12px; border:1px solid var(--border);">
+            <div style="font-size: 40px; margin-bottom: 10px;">🔍</div>
+            <p style="font-size: 15px; font-weight: 700; color:#0f172a;">Không tìm thấy sản phẩm nào phù hợp</p>
+            <p style="font-size: 12px; margin-top: 4px; color:var(--text-muted);">Hãy thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc.</p>
+            <button class="btn btn-primary btn-sm" style="margin-top: 14px;" onclick="resetFilter()">Xem tất cả sản phẩm</button>
+          </div>
+        `;
+        return;
+      }
+
+      list.forEach(p => {
+        const discount = Math.round(((p.originalPrice - p.basePrice) / p.originalPrice) * 100);
+        const isCompared = appState.comparisonList.includes(p.id);
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = (e) => {
+          if (!e.target.closest('.card-action-btn')) {
+            openProductById(p.id);
+          }
+        };
+
+        card.innerHTML = `
+          <div class="product-badge-wrap">
+            <span class="badge badge-primary">${p.badge}</span>
+            ${p.has0Percent ? '<span class="badge badge-emerald">Trả góp 0%</span>' : ''}
+          </div>
+
+          <div class="product-thumb-wrap">
+            <img class="product-thumb" src="${p.image}" alt="${p.name}" loading="lazy">
+          </div>
+
+          <div>
+            <div class="product-name" title="${p.name}">${p.name}</div>
+            
+            <div class="product-specs-chip">
+              <span class="spec-tag">${p.specs.chip.split('(')[0]}</span>
+              <span class="spec-tag">RAM ${p.specs.ram}</span>
+              <span class="spec-tag">120Hz</span>
+            </div>
+
+            <div class="product-price-row">
+              <span class="product-price mono">${formatVND(p.basePrice)}</span>
+              <span class="product-old-price mono">${formatVND(p.originalPrice)}</span>
+              <span class="product-discount-tag">-${discount}%</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button class="btn btn-outline btn-sm card-action-btn" style="flex: 1;" onclick="toggleCompare('${p.id}', event)">
+              ${isCompared ? '✓ Đã chọn SS' : '⚖️ So sánh'}
+            </button>
+            <button class="btn btn-primary btn-sm card-action-btn" style="flex: 1;" onclick="quickBuyPhone('${p.id}', event)">
+              ⚡ Mua Ngay
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterByBrand(brand, el) {
+      appState.activeBrandFilter = brand;
+      appState.activeSpecialFilter = null;
+      document.querySelectorAll('.brand-pill, .subnav-link').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+      renderCatalog();
+    }
+
+    function filterByPrice(range) {
+      appState.activePriceFilter = range;
+      renderCatalog();
+    }
+
+    function filterBySpecial(special, el) {
+      appState.activeSpecialFilter = special;
+      document.querySelectorAll('.subnav-link').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+      renderCatalog();
+    }
+
+    function handleSearch() {
+      appState.searchQuery = document.getElementById('searchInput').value.trim();
+      renderCatalog();
+    }
+
+    function handleSort() {
+      appState.activeSort = document.getElementById('sortSelect').value;
+      renderCatalog();
+    }
+
+    function resetFilter() {
+      appState.activeBrandFilter = 'all';
+      appState.activePriceFilter = 'all';
+      appState.activeSpecialFilter = null;
+      appState.searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      document.querySelectorAll('.brand-pill, .subnav-link').forEach(b => b.classList.remove('active'));
+      document.querySelector('.brand-bar .brand-pill:first-child')?.classList.add('active');
+      renderCatalog();
+    }
+
+    // --- 6. PRODUCT DETAIL MODAL (PDP) ---
+    function openProductById(phoneId) {
+      const p = PRODUCTS_DATA.find(x => x.id === phoneId);
+      if (!p) return;
+
+      appState.selectedPdpPhone = p;
+      appState.selectedPdpStorage = 0;
+      appState.selectedPdpColor = 0;
+
+      document.getElementById('pdpModalTitle').textContent = p.name;
+      document.getElementById('pdpName').textContent = p.name;
+      document.getElementById('pdpRating').textContent = `⭐ ${p.rating} (${p.reviewsCount} đánh giá thực tế)`;
+
+      renderPdpVariants();
+      openModal('pdpModal');
+    }
+
+    function renderPdpVariants() {
+      const p = appState.selectedPdpPhone;
+      if (!p) return;
+
+      // Storage Options
+      const sGroup = document.getElementById('pdpStorageGroup');
+      sGroup.innerHTML = '';
+      p.storages.forEach((s, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `variant-btn ${appState.selectedPdpStorage === idx ? 'active' : ''}`;
+        btn.textContent = `${s.name} ${s.extra > 0 ? `(+${formatVND(s.extra)})` : ''}`;
+        btn.onclick = () => {
+          appState.selectedPdpStorage = idx;
+          renderPdpVariants();
+        };
+        sGroup.appendChild(btn);
+      });
+
+      // Color Options
+      const cGroup = document.getElementById('pdpColorGroup');
+      cGroup.innerHTML = '';
+      p.colors.forEach((c, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `variant-btn ${appState.selectedPdpColor === idx ? 'active' : ''}`;
+        btn.innerHTML = `<span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${c.hex}; margin-right:4px; border:1px solid #cbd5e1;"></span>${c.name}`;
+        btn.onclick = () => {
+          appState.selectedPdpColor = idx;
+          renderPdpVariants();
+        };
+        cGroup.appendChild(btn);
+      });
+
+      // Current Price & Image
+      const curStorage = p.storages[appState.selectedPdpStorage];
+      const curColor = p.colors[appState.selectedPdpColor];
+      const finalPrice = p.basePrice + (curStorage ? curStorage.extra : 0);
+      const finalOldPrice = p.originalPrice + (curStorage ? curStorage.extra : 0);
+      const discount = Math.round(((finalOldPrice - finalPrice) / finalOldPrice) * 100);
+
+      document.getElementById('pdpPrice').textContent = formatVND(finalPrice);
+      document.getElementById('pdpOldPrice').textContent = formatVND(finalOldPrice);
+      document.getElementById('pdpDiscount').textContent = `-${discount}%`;
+
+      document.getElementById('pdpMainImg').src = curColor.img || p.image;
+      document.getElementById('pdpColorLabel').textContent = curColor.name;
+
+      // Render Specs Sheet
+      const specsTable = document.getElementById('pdpSpecsTable');
+      specsTable.innerHTML = `
+        <div style="background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0;">
+          <strong style="color:#64748b;">Màn hình:</strong><br><span style="color:#0f172a; font-weight:600;">${p.specs.screen}</span>
+        </div>
+        <div style="background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0;">
+          <strong style="color:#64748b;">Vi xử lý (CPU):</strong><br><span style="color:#0f172a; font-weight:600;">${p.specs.chip}</span>
+        </div>
+        <div style="background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0;">
+          <strong style="color:#64748b;">Camera sau:</strong><br><span style="color:#0f172a; font-weight:600;">${p.specs.cameraRear}</span>
+        </div>
+        <div style="background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0;">
+          <strong style="color:#64748b;">Pin & Sạc:</strong><br><span style="color:#0f172a; font-weight:600;">${p.specs.battery}</span>
+        </div>
+        <div style="background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0;">
+          <strong style="color:#64748b;">Hệ điều hành:</strong><br><span style="color:#0f172a; font-weight:600;">${p.specs.os}</span>
+        </div>
+        <div style="background:#f8fafc; padding:10px 14px; border-radius:6px; border:1px solid #e2e8f0;">
+          <strong style="color:#64748b;">Trọng lượng:</strong><br><span style="color:#0f172a; font-weight:600;">${p.specs.weight}</span>
+        </div>
+      `;
+    }
+
+    function addToCartFromPdp() {
+      const p = appState.selectedPdpPhone;
+      if (!p) return;
+
+      const curStorage = p.storages[appState.selectedPdpStorage];
+      const curColor = p.colors[appState.selectedPdpColor];
+      const price = p.basePrice + (curStorage ? curStorage.extra : 0);
+
+      const cartKey = `${p.id}_${curStorage.name}_${curColor.name}`;
+      const existing = appState.cart.find(item => item.key === cartKey);
+
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        appState.cart.push({
+          key: cartKey,
+          id: p.id,
+          name: `${p.name} (${curStorage.name} - ${curColor.name})`,
+          price: price,
+          image: curColor.img || p.image,
+          qty: 1
+        });
+      }
+
+      saveCart();
+      showToast(`Đã thêm ${p.name} (${curStorage.name}) vào giỏ hàng!`, 'success');
+    }
+
+    function buyNowFromPdp() {
+      addToCartFromPdp();
+      closeModal('pdpModal');
+      openCartModal();
+    }
+
+    function quickBuyPhone(phoneId, event) {
+      if (event) event.stopPropagation();
+      openProductById(phoneId);
+    }
+
+    // --- 7. COMPARISON TOOL ---
+    function toggleCompare(phoneId, event) {
+      if (event) event.stopPropagation();
+
+      const idx = appState.comparisonList.indexOf(phoneId);
+      if (idx > -1) {
+        appState.comparisonList.splice(idx, 1);
+        showToast('Đã xóa khỏi danh sách so sánh', 'info');
+      } else {
+        if (appState.comparisonList.length >= 3) {
+          showToast('Chỉ có thể so sánh tối đa 3 điện thoại cùng lúc!', 'warning');
+          return;
+        }
+        appState.comparisonList.push(phoneId);
+        showToast('Đã thêm vào danh sách so sánh', 'success');
+      }
+
+      updateCompareBar();
+      renderCatalog();
+    }
+
+    function updateCompareBar() {
+      const bar = document.getElementById('compareBar');
+      const count = document.getElementById('compareCount');
+      const thumbs = document.getElementById('compareThumbsPreview');
+
+      count.textContent = appState.comparisonList.length;
+      thumbs.innerHTML = '';
+
+      if (appState.comparisonList.length > 0) {
+        bar.classList.add('active');
+        appState.comparisonList.forEach(id => {
+          const p = PRODUCTS_DATA.find(x => x.id === id);
+          if (p) {
+            thumbs.innerHTML += `<img src="${p.image}" style="width:32px; height:32px; border-radius:6px; object-fit:contain; background:#f8fafc; border:1px solid #cbd5e1;">`;
+          }
+        });
+      } else {
+        bar.classList.remove('active');
+      }
+    }
+
+    function clearComparison() {
+      appState.comparisonList = [];
+      updateCompareBar();
+      renderCatalog();
+    }
+
+    function openCompareModal() {
+      if (appState.comparisonList.length < 2) {
+        showToast('Vui lòng chọn ít nhất 2 điện thoại để so sánh!', 'warning');
+        return;
+      }
+
+      const phones = appState.comparisonList.map(id => PRODUCTS_DATA.find(x => x.id === id));
+      const thead = document.getElementById('compareTableHead');
+      const tbody = document.getElementById('compareTableBody');
+
+      thead.innerHTML = `
+        <tr style="border-bottom: 2px solid var(--border); background:#f8fafc;">
+          <th style="padding:14px; width:180px; color:#475569; font-weight:800;">TIÊU CHÍ SO SÁNH</th>
+          ${phones.map(p => `
+            <th style="padding:14px; text-align:center;">
+              <img src="${p.image}" style="height:90px; object-fit:contain; margin-bottom:8px;"><br>
+              <strong style="color:#0f172a;">${p.name}</strong><br>
+              <span class="mono text-primary" style="font-size:15px; font-weight:800;">${formatVND(p.basePrice)}</span>
+            </th>
+          `).join('')}
+        </tr>
+      `;
+
+      const criteria = [
+        { label: "Màn hình", getVal: p => p.specs.screen },
+        { label: "Chip vi xử lý", getVal: p => p.specs.chip },
+        { label: "Bộ nhớ RAM", getVal: p => p.specs.ram },
+        { label: "Camera sau", getVal: p => p.specs.cameraRear },
+        { label: "Camera trước", getVal: p => p.specs.cameraFront },
+        { label: "Pin & Tốc độ sạc", getVal: p => p.specs.battery },
+        { label: "Trọng lượng", getVal: p => p.specs.weight },
+        { label: "Hệ điều hành", getVal: p => p.specs.os }
+      ];
+
+      tbody.innerHTML = criteria.map(c => `
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding:12px 14px; font-weight:700; color:#334155; background:#f8fafc;">${c.label}</td>
+          ${phones.map(p => `<td style="padding:12px 14px; text-align:center; color:#0f172a;">${c.getVal(p)}</td>`).join('')}
+        </tr>
+      `).join('');
+
+      openModal('compareModal');
+    }
+
+    // --- 8. INSTALLMENT 0% CALCULATOR ---
+    function openInstallmentModal(defaultPhoneId = null) {
+      const select = document.getElementById('instPhoneSelect');
+      select.innerHTML = PRODUCTS_DATA.map(p => `<option value="${p.id}" ${p.id === defaultPhoneId ? 'selected' : ''}>${p.name} - ${formatVND(p.basePrice)}</option>`).join('');
+      calculateInstallment();
+      openModal('installmentModal');
+    }
+
+    function openInstallmentForCurrentPdp() {
+      const p = appState.selectedPdpPhone;
+      if (!p) return;
+      closeModal('pdpModal');
+      openInstallmentModal(p.id);
+    }
+
+    function calculateInstallment() {
+      const phoneId = document.getElementById('instPhoneSelect').value;
+      const p = PRODUCTS_DATA.find(x => x.id === phoneId);
+      if (!p) return;
+
+      const prepayRate = parseFloat(document.getElementById('instPrepaySelect').value);
+      const termMonths = parseInt(document.getElementById('instTermSelect').value, 10);
+
+      const price = p.basePrice;
+      const prepayAmount = Math.round(price * prepayRate);
+      const loanAmount = price - prepayAmount;
+      const monthlyPayment = Math.round(loanAmount / termMonths);
+
+      document.getElementById('instPrice').textContent = formatVND(price);
+      document.getElementById('instPrepayAmount').textContent = formatVND(prepayAmount);
+      document.getElementById('instMonthlyPayment').textContent = `${formatVND(monthlyPayment)} / tháng`;
+    }
+
+    function applyInstallmentOrder() {
+      const phoneId = document.getElementById('instPhoneSelect').value;
+      const p = PRODUCTS_DATA.find(x => x.id === phoneId);
+      closeModal('installmentModal');
+      openProductById(p.id);
+      showToast('Đã chọn phương án trả góp 0%! Vui lòng chọn màu và nhấn Mua Ngay', 'info');
+    }
+
+    // --- 9. TRADE-IN CALCULATOR (THU CŨ ĐỔI MỚI) ---
+    function openTradeInModal() {
+      const newSelect = document.getElementById('tradeNewModelSelect');
+      newSelect.innerHTML = PRODUCTS_DATA.map(p => `<option value="${p.id}">${p.name} (${formatVND(p.basePrice)})</option>`).join('');
+      calculateTradeIn();
+      openModal('tradeInModal');
+    }
+
+    function calculateTradeIn() {
+      const oldBase = parseFloat(document.getElementById('tradeOldModelSelect').value);
+      const condRate = parseFloat(document.getElementById('tradeConditionSelect').value);
+      const newPhoneId = document.getElementById('tradeNewModelSelect').value;
+      const newP = PRODUCTS_DATA.find(x => x.id === newPhoneId);
+
+      const estOldPrice = Math.round(oldBase * condRate);
+      const bonusSubsidy = 2000000; // Trợ giá 2.000.000₫
+      const totalTradeValue = estOldPrice + bonusSubsidy;
+
+      const newPrice = newP ? newP.basePrice : 30000000;
+      const diff = Math.max(0, newPrice - totalTradeValue);
+
+      document.getElementById('tradeEstOldPrice').textContent = formatVND(estOldPrice);
+      document.getElementById('tradeDifference').textContent = formatVND(diff);
+    }
+
+    function confirmTradeInPlan() {
+      const newPhoneId = document.getElementById('tradeNewModelSelect').value;
+      closeModal('tradeInModal');
+      openProductById(newPhoneId);
+      showToast('Đã kích hoạt chương trình Thu Cũ Đổi Mới! Trợ giá 2.000.000₫ được áp dụng.', 'success');
+    }
+
+    // --- 10. CART & CHECKOUT FLOW ---
+    function openCartModal() {
+      renderCart();
+      openModal('cartModal');
+    }
+
+    function renderCart() {
+      const list = document.getElementById('cartItemsList');
+      list.innerHTML = '';
+
+      if (appState.cart.length === 0) {
+        list.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-dim); background:#f8fafc; border-radius:8px;">Giỏ hàng đang trống</div>';
+        document.getElementById('cartSubtotal').textContent = '0₫';
+        document.getElementById('cartDiscount').textContent = '-0₫';
+        document.getElementById('cartGrandTotal').textContent = '0₫';
+        return;
+      }
+
+      let subtotal = 0;
+      appState.cart.forEach((item, idx) => {
+        subtotal += item.price * item.qty;
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px; border-radius:6px; border:1px solid var(--border);';
+        row.innerHTML = `
+          <div style="display:flex; align-items:center; gap:10px;">
+            <img src="${item.image}" style="width:40px; height:40px; object-fit:contain; background:#fff; border-radius:4px; padding:2px;">
+            <div>
+              <div style="font-size:12px; font-weight:700; color:#0f172a;">${item.name}</div>
+              <div class="mono text-primary" style="font-size:12px; font-weight:700;">${formatVND(item.price)}</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="changeCartQty(${idx}, -1)">-</button>
+            <span class="mono" style="font-weight:700;">${item.qty}</span>
+            <button class="btn btn-outline btn-sm" onclick="changeCartQty(${idx}, 1)">+</button>
+            <button class="btn btn-outline btn-sm btn-icon" onclick="removeCartItem(${idx})">✕</button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+
+      let discount = 0;
+      if (appState.appliedVoucher === 'IPHONE2026') discount = 500000;
+      if (appState.appliedVoucher === 'FREESHIP') discount = 100000;
+
+      const grandTotal = Math.max(0, subtotal - discount);
+
+      document.getElementById('cartSubtotal').textContent = formatVND(subtotal);
+      document.getElementById('cartDiscount').textContent = `-${formatVND(discount)}`;
+      document.getElementById('cartGrandTotal').textContent = formatVND(grandTotal);
+    }
+
+    function changeCartQty(idx, delta) {
+      if (!appState.cart[idx]) return;
+      appState.cart[idx].qty += delta;
+      if (appState.cart[idx].qty <= 0) {
+        appState.cart.splice(idx, 1);
+      }
+      saveCart();
+      renderCart();
+    }
+
+    function removeCartItem(idx) {
+      appState.cart.splice(idx, 1);
+      saveCart();
+      renderCart();
+    }
+
+    function applyVoucher() {
+      const code = (document.getElementById('voucherInput').value || '').trim().toUpperCase();
+      if (code === 'IPHONE2026' || code === 'FREESHIP') {
+        appState.appliedVoucher = code;
+        renderCart();
+        showToast(`Áp dụng mã giảm giá [${code}] thành công!`, 'success');
+      } else {
+        showToast('Mã giảm giá không hợp lệ!', 'error');
+      }
+    }
+
+    function submitOrder(e) {
+      e.preventDefault();
+      if (appState.cart.length === 0) {
+        showToast('Giỏ hàng trống!', 'warning');
+        return;
+      }
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const city = document.getElementById('custCity').value;
+      const addr = document.getElementById('custAddress').value.trim();
+      const payMethod = document.querySelector('input[name="payMethod"]:checked').value;
+
+      let subtotal = appState.cart.reduce((s, i) => s + (i.price * i.qty), 0);
+      let discount = appState.appliedVoucher ? 500000 : 0;
+      const grandTotal = Math.max(0, subtotal - discount);
+
+      const orderId = 'HD-ORD-' + Math.floor(100000 + Math.random() * 900000);
+
+      const order = {
+        id: orderId,
+        date: new Date().toISOString(),
+        customer: { name, phone, city, address: `${addr}, ${city}` },
+        items: JSON.parse(JSON.stringify(appState.cart)),
+        subtotal,
+        discount,
+        grandTotal,
+        payMethod,
+        status: 'Đã Tiếp Nhận Kỹ Thuật'
+      };
+
+      appState.orders.unshift(order);
+      saveOrders();
+
+      // Clear cart
+      appState.cart = [];
+      saveCart();
+      closeModal('cartModal');
+
+      // Show Success Modal
+      document.getElementById('successOrderId').textContent = orderId;
+      const qrBox = document.getElementById('vietqrBox');
+      if (payMethod === 'vietqr') {
+        qrBox.style.display = 'block';
+        const qrUrl = `https://api.vietqr.io/image/970407-190368889999-5H3aP8q.jpg?accountName=CONG%20TY%20HAI%20DANG%20MOBILE%20VN&amount=${grandTotal}&addInfo=${orderId}`;
+        document.getElementById('vietqrImg').src = qrUrl;
+      } else {
+        qrBox.style.display = 'none';
+      }
+
+      openModal('orderSuccessModal');
+    }
+
+    // --- 11. ORDERS DASHBOARD ---
+    function openOrdersModal() {
+      renderOrdersList();
+      openModal('ordersModal');
+    }
+
+    function renderOrdersList() {
+      const container = document.getElementById('ordersListContainer');
+      container.innerHTML = '';
+
+      if (appState.orders.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-dim); background:#f8fafc; border-radius:8px;">Bạn chưa có đơn hàng nào</div>';
+        return;
+      }
+
+      appState.orders.forEach((ord, idx) => {
+        const dStr = new Date(ord.date).toLocaleString('vi-VN');
+        const itemsText = ord.items.map(i => `• ${i.name} (x${i.qty})`).join('<br>');
+
+        const card = document.createElement('div');
+        card.style.cssText = 'background:#f8fafc; padding:16px; border-radius:8px; border:1px solid var(--border);';
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div>
+              <strong style="color:#0f172a; font-size:14px;">${ord.id}</strong>
+              <div style="font-size:11px; color:var(--text-dim);">Ngày đặt: ${dStr}</div>
+            </div>
+            <div style="text-align:right;">
+              <span class="badge badge-emerald">${ord.status}</span><br>
+              <span class="mono text-primary" style="font-size:16px; font-weight:800;">${formatVND(ord.grandTotal)}</span>
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); background:#ffffff; padding:10px 14px; border-radius:6px; border:1px solid var(--border); margin-bottom:10px; line-height:1.5;">
+            <strong style="color:#0f172a;">Sản phẩm:</strong><br>${itemsText}
+            <div style="margin-top:6px; border-top:1px dashed var(--border); padding-top:6px;">
+              Giao tới: <strong>${ord.customer.name}</strong> (${ord.customer.phone}) - ${ord.customer.address}
+            </div>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="cancelOrder(${idx})">Hủy đơn</button>
+            <button class="btn btn-secondary btn-sm" onclick="alert('Đã in hóa đơn VAT cho đơn hàng ' + '${ord.id}')">🖨️ In Hóa Đơn</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function cancelOrder(idx) {
+      if (confirm('Bạn chắc chắn muốn hủy đơn hàng này?')) {
+        appState.orders.splice(idx, 1);
+        saveOrders();
+        renderOrdersList();
+        showToast('Đã hủy đơn hàng thành công', 'info');
+      }
+    }
+
+    // --- 12. GENERAL MODAL HELPERS ---
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    // --- 13. COUNTDOWN TIMER SIMULATION ---
+    function startFlashSaleTimer() {
+      let seconds = 4 * 3600 + 35 * 60 + 28;
+      setInterval(() => {
+        if (seconds > 0) seconds--;
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+        document.getElementById('timerHours').textContent = String(h).padStart(2, '0');
+        document.getElementById('timerMins').textContent = String(m).padStart(2, '0');
+        document.getElementById('timerSecs').textContent = String(s).padStart(2, '0');
+      }, 1000);
+    }
+
+    // --- 14. INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', () => {
+      loadAppState();
+      renderCatalog();
+      startFlashSaleTimer();
+    });
+  </script>
+</body>
+</html>
+'''
+
+# 1. Write index.html
+with open("/home/haidang/Code/hoc-ai/website-ban-dien-thoai/index.html", "w", encoding="utf-8") as f:
+    f.write(HTML_CONTENT)
+
+# 2. Write vercel.json for Vercel deployment
+VERCEL_JSON = {
+    "version": 2,
+    "framework": None,
+    "routes": [
+        { "handle": "filesystem" },
+        { "src": "/(.*)", "dest": "/index.html" }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+                { "key": "X-Content-Type-Options", "value": "nosniff" },
+                { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+            ]
+        }
+    ]
+}
+
+with open("/home/haidang/Code/hoc-ai/website-ban-dien-thoai/vercel.json", "w", encoding="utf-8") as f:
+    json.dump(VERCEL_JSON, f, indent=2)
+
+print("Corporate Enterprise Light Edition index.html generated successfully!")
